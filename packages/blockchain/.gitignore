@@ -1,0 +1,7 @@
+# Hardhat Compile files
+artifacts
+cache
+
+# Basic files
+node_modules
+.env

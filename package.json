@@ -1,0 +1,19 @@
+{
+  "name": "testdapps",
+  "version": "1.0.0",
+  "license": "ISC",
+  "private": true,
+  "scripts": {
+    "build": "npm run build -ws --if-present",
+    "bbuild": "npm run build -w pakages/blockchain",
+    "fbuild": "npm run build -w pakages/frontend",
+    "preinstall": "npx only-allow npm"
+  },
+  "volta": {
+    "node": "18.12.1"
+  },
+  "workspaces": [
+    "packages/blockchain",
+    "packages/frontend"
+  ]
+}
