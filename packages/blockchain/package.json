@@ -3,7 +3,13 @@
   "version": "1.0.0",
   "license": "ISC",
   "private": true,
-  "scripts": {},
+  "scripts": {
+    "build": "hardhat compile",
+    "test": "hardhat test",
+    "node": "hardhat node",
+    "dev": "hardhat run scripts/deploy.js",
+    "stg": "hardhat run scripts/deploy.js --network goerli"
+  },
   "volta": {
     "node": "18.12.1"
   },
