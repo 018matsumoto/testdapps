@@ -8,7 +8,7 @@ const WalletStatus = ({ isConnect, balance }) => {
   const Status = () => (
     <>
       <div className="text-slate-500">balance</div>
-      <div className="text-xl font-medium text-black">{balance} ETH</div>
+      <div className="text-xl font-medium text-black">{balance}</div>
     </>
   )
 
