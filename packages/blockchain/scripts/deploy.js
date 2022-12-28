@@ -2,6 +2,8 @@ const fs = require("fs");
 const path = require("path");
 
 async function main() {
+  console.warn("Network:", network.name);
+
   const [deployer] = await ethers.getSigners();
 
   console.log("Deploying contracts with the account:", deployer.address);
@@ -9,6 +11,7 @@ async function main() {
 
   const Token = await ethers.getContractFactory("Token");
   const token = await Token.deploy();
+  await token.deployed();
 
   console.log("Token address:", token.address);
   saveFrontendFiles(token);

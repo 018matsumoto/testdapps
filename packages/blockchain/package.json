@@ -7,7 +7,7 @@
     "build": "hardhat compile",
     "test": "hardhat test",
     "node": "hardhat node",
-    "dev": "hardhat run scripts/deploy.js",
+    "dev": "hardhat run scripts/deploy.js --network localhost",
     "stg": "hardhat run scripts/deploy.js --network goerli"
   },
   "volta": {
