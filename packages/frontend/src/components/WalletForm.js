@@ -1,7 +1,7 @@
 function WalletForm({ isConnect, address, handleClickConnect }) {
   return (
     <div className="p-6 w-full max-w-2xl mx-auto bg-white rounded-xl shadow-lg flex items-center justify-between space-x-4">
-      <div>{isConnect ? "🌞" : "💤"}</div>
+      <div>{isConnect ? "🦊" : "💤"}</div>
       <div className="text-ellipsis overflow-hidden max-w-full">
         {address ?? "..."}
       </div>
