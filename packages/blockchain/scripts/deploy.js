@@ -3,6 +3,8 @@ const path = require("path");
 
 async function main() {
   console.warn("Network:", network.name);
+  console.warn("NetworkType:", network.config.networkType);
+  console.warn("ChainId:", network.config.chainId);
 
   const [deployer] = await ethers.getSigners();
 
@@ -14,25 +16,41 @@ async function main() {
   await token.deployed();
 
   console.log("Token address:", token.address);
-  saveFrontendFiles(token);
+  saveFrontendFiles(token, network.config);
 }
 
-function saveFrontendFiles(token) {
+function saveFrontendFiles(token, config) {
+  // create directory
   const contractsDir = path.join(__dirname, "..", "..", "frontend", "src", "contracts");
-
   if (!fs.existsSync(contractsDir)) {
     fs.mkdirSync(contractsDir);
   }
 
+  // create(update) token-address.json
+  let tokenAddressData = {};
+  const tokenAddressFile = path.join(contractsDir, "token-address.json");
+  if (fs.existsSync(tokenAddressFile)) {
+    tokenAddressData = JSON.parse(fs.readFileSync(tokenAddressFile, "utf8"));
+  }
   fs.writeFileSync(
-    path.join(contractsDir, "contract-address.json"),
-    JSON.stringify({ Token: token.address }, undefined, 2)
+    tokenAddressFile,
+    JSON.stringify(
+      {
+        ...tokenAddressData,
+        [config.networkType]: {
+          address: token.address,
+          chainId: config.chainId,
+        },
+      },
+      undefined,
+      2
+    )
   );
 
+  // create Token.json
   const TokenArtifact = artifacts.readArtifactSync("Token");
-
   fs.writeFileSync(
-    path.join(contractsDir, "Token.json"),
+    path.join(contractsDir, "token.json"),
     JSON.stringify(TokenArtifact, null, 2)
   );
 }
