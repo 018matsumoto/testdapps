@@ -1,0 +1,10 @@
+{
+  "testnet": {
+    "address": "0xaC075B358b94Bf40598C5857D5C15466dc41aB62",
+    "chainId": 5
+  },
+  "local": {
+    "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+    "chainId": 1337
+  }
+}

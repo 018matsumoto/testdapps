@@ -21,7 +21,3 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-# contracts
-contract-address.json
-Token.json

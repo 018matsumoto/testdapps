@@ -1,7 +1,15 @@
 import { useEffect, useState } from "react";
-import TokenContract from "token";
-import tokenAbi from "./contracts/Token.json";
-import contractAddress from "./contracts/contract-address.json";
+import TokenContract from "./TokenContract";
+import tokenAbi from "./token.json";
+import tokenAddress from "./token-address.json";
+
+// Contract Address
+const CONTRACT_ADDRESS = tokenAddress[process.env.REACT_APP_NETWORK_TYPE]?.address;
+const CONTRACT_CHAIN_Id = tokenAddress[process.env.REACT_APP_NETWORK_TYPE]?.chainId;
+console.log("NETWORK_TYPE:", process.env.REACT_APP_NETWORK_TYPE);
+
+// MetaMask Error Code
+const ERROR_CODE_NO_METAMASK = 4001;
 
 const initState = {
   contractAddress: null,
@@ -17,7 +25,7 @@ const useToken = () => {
 
   useEffect(() => {
     setContract(new TokenContract(window.ethereum));
-    setState((prev) => ({ ...prev, contractAddress: contractAddress.Token }));
+    setState((prev) => ({ ...prev, contractAddress: CONTRACT_ADDRESS }));
   }, []);
 
   const connectWallet = async () => {
@@ -30,7 +38,7 @@ const useToken = () => {
       });
       setState((prev) => ({ ...prev, account }));
     } catch (err) {
-      if (err.code === 4001) {
+      if (err.code === ERROR_CODE_NO_METAMASK) {
         console.log("Please connect to MetaMask.");
       } else {
         console.error(err);
@@ -40,8 +48,8 @@ const useToken = () => {
 
   const loadContract = async (account) => {
     try {
-      const [name, symbol] = await contract.initialize(
-        contractAddress.Token,
+      const { name, symbol } = await contract.initialize(
+        CONTRACT_ADDRESS,
         tokenAbi.abi
       );
       const balance = await contract.balanceOf(account);
@@ -49,10 +57,10 @@ const useToken = () => {
         ...prev,
         name,
         symbol,
-        balance: balance.toString(),
+        balance,
       }));
     } catch (err) {
-      if (err.code === 4001) {
+      if (err.code === ERROR_CODE_NO_METAMASK) {
         console.log("Please connect to MetaMask.");
       } else {
         console.error(err);
@@ -78,14 +86,15 @@ const useToken = () => {
   };
 
   const isTestnetOrLocal = () => {
-    if (window.ethereum.networkVersion === "undefined") {
+    console.log("chainId", Number(window.ethereum.chainId));
+    if (Number(window.ethereum.chainId) !== CONTRACT_CHAIN_Id) {
       console.log("No network connection.");
       return false;
     }
     return true;
   };
 
-  return { state, connectWallet, loadContract, updateBalance };
+  return [ state, connectWallet, loadContract, updateBalance ];
 };
 
 export default useToken;
