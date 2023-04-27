@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Header from "./components/Header";
 import Layout from "./components/Layout";
+import TransferForm from "./components/TransferForm";
 import WalletForm from "./components/WalletForm";
 import WalletStatus from "./components/WalletStatus";
 import useToken from "./contracts/useToken";
@@ -13,6 +14,9 @@ function App() {
     await connectWallet();
     await loadContract(token.account);
     setConnect(token.account ? true : false);
+  };
+
+  const handleClickTransfer = async () => {
   };
 
   return (
@@ -28,7 +32,7 @@ function App() {
         balance={token.balance}
         symbol={token.symbol}
       />
-      {/* <TransferForm isConnect={isConnect} address={account} handleClickTransfer={handleTransfer} /> */}
+      <TransferForm isConnect={isConnect} address={token.account} handleClickTransfer={handleClickTransfer} />
     </Layout>
   );
 }
